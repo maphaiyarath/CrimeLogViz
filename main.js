@@ -1,4 +1,4 @@
-alert('Welcome to Michelle and Jacquie\'s data viz!');
+alert('Welcome to Michelle and Jacquie\'s data viz about crime at SMU!');
 d3.select('#viz')
 	.append('svg')
 		.attr('width', 600)
