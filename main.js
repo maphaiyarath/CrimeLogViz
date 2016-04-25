@@ -1,18 +1,64 @@
-alert('Welcome to Michelle and Jacquie\'s data viz about crime at SMU!');
-d3.select('#viz')
-	.append('svg')
-		.attr('width', 600)
-		.attr('height', 400)
-		.style('background', "#CC88CC")
-	.append("rect")
-		.attr('x', 200)
-		.attr('y', 100)
-		.attr('width', 200)
-		.attr('height', 200)
-		.style('fill', '#CB4321')
-	d3.select('svg')
-		.append("circle")
-		.attr('cx', 200)
-		.attr('cy', 200)
-		.attr('r', 100)
-		.style('fill', '#840042')
+
+alert("This is my javascript file");
+
+var crime = new CrimeLog("Sally", "1", "2/3", "1100", "Moody", "closed");
+var crimeLogs = [];
+var parser = new Parser(); 
+parser.parse();
+
+function CrimeLog(type, reportNumber, date, time, location, status) {
+	this.type = type;
+	this.reportNumber = +reportNumber;
+	this.date = +date;
+	this.time = +time; 
+	this.location = location;
+	this.status = status;
+
+};
+
+CrimeLog.prototype.getType = function() {
+	return this.type; 
+};
+
+CrimeLog.prototype.getDate = function() {
+	return this.date; 
+};
+
+CrimeLog.prototype.getLocaton = function() {
+	return this.location;
+};
+
+CrimeLog.prototype.getTime = function() {
+	return this.time;
+};
+
+CrimeLog.prototype.getStatus = function() {
+	return this.status;
+};
+
+CrimeLog.prototype.getReportNumber = function() {
+	return this.reportNumber; 
+};
+
+function Parser() {
+	url = "http://www.smu.edu/BusinessFinance/Police/CrimeLog/SMU%20-%20Main%20Campus/";
+	document = "records.csv"; 
+};
+
+Parser.prototype.sortChronological = function() {
+	
+};
+
+Parser.prototype.getNumOfRows = function() {
+
+};
+
+Parser.prototype.run = function() {
+	this.scrapeTable();
+};
+
+Parser.prototype.parse = function() {
+	d3.csv(this.document)
+		.row(function(d) { return {key: d.key, value: d.value}; })
+		.get(function(error,rows) {console.log(rows); });
+};
