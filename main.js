@@ -1,28 +1,3 @@
-// alert('Welcome to Michelle and Jacquie\'s data viz about crime at SMU!');
-
-/*
-// test graphic
-d3.select('#viz')
-	.append('svg')
-		.attr('width', 600)
-		.attr('height', 400)
-		.style('background', "#CC88CC")
-	.append("rect")
-		.attr('x', 200)
-		.attr('y', 100)
-		.attr('width', 200)
-		.attr('height', 200)
-		.style('fill', '#CB4321')
-	d3.select('svg')
-		.append("circle")
-		.attr('cx', 200)
-		.attr('cy', 200)
-		.attr('r', 100)
-		.style('fill', '#840042')
-*/
-
-// =============================================
-
 // test graphic w/ irrelevant data
 // view array of objects in console
 d3.csv("records.csv", function(d) {
