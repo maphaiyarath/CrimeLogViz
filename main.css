@@ -1,17 +1,13 @@
-.home {
-
-	font-color: red;
-	font-size: 16px;
-
+body {
+	background-color: #F8E1CF;
+	color: black;
+	font-family: 'futura', sans-serif;
 }
 
-h1 {
-	font-size: 24px;
-	font-color: #EBA58D;
-	margin-bottom: -15px;
+h6 {
+	text-align: center;
 }
 
 h2 {
-	font-size: 18px;
-	margin-bottom: -5px;
+	text-align: center;
 }

@@ -1,28 +1,3 @@
-// alert('Welcome to Michelle and Jacquie\'s data viz about crime at SMU!');
-
-/*
-// test graphic
-d3.select('#viz')
-	.append('svg')
-		.attr('width', 600)
-		.attr('height', 400)
-		.style('background', "#CC88CC")
-	.append("rect")
-		.attr('x', 200)
-		.attr('y', 100)
-		.attr('width', 200)
-		.attr('height', 200)
-		.style('fill', '#CB4321')
-	d3.select('svg')
-		.append("circle")
-		.attr('cx', 200)
-		.attr('cy', 200)
-		.attr('r', 100)
-		.style('fill', '#840042')
-*/
-
-// =============================================
-
 // test graphic w/ irrelevant data
 // view array of objects in console
 d3.csv("records.csv", function(d) {
@@ -39,10 +14,8 @@ d3.csv("records.csv", function(d) {
 	// alert ('Data loaded!');
 });
 
-// irrelevant data
+// number of crimes per hour of the day during 2016
 var bardata = [10, 22, 7, 8, 2, 2, 3, 4, 3, 8, 13, 12, 7, 6, 9, 6, 14, 7, 8, 5, 8, 11, 12, 9];
-
-
 /*
 bardata.sort(function compareNumbers(a, b) {
 	return a - b;
@@ -54,7 +27,7 @@ var margin = {top: 30, right:30, bottom: 40, left:50}
 // variables for graphic
 var height = 400 - margin.top - margin.bottom,
 	width = 800 - margin.left - margin.right,
-	barWidth = 50;
+	barWidth = 50,
 	barOffset = 5;
 
 // gradient color scale
@@ -68,7 +41,7 @@ var tempColor;
 // map data to canvas height
 var yScale = d3.scale.linear()
 	.domain([0, d3.max(bardata)])
-	.range([0, height])
+	.range([0, height]);
 
 // map data to canvas width
 var xScale = d3.scale.ordinal()
@@ -160,27 +133,17 @@ var hAxis = d3.svg.axis()
 	.orient('bottom')
 	// 5 tick marks
 	.tickValues(xScale.domain().filter(function(d, i) {
-		return !(i % (bardata.length/5));
+	return !(i % (bardata.length/25));
 	}))
 
 var hGuide = d3.select('svg').append('g')
 	hAxis(hGuide)
 	hGuide.attr('transform', 'translate('+margin.left+', '+(height+margin.top)+')')
-	hGuide.attr('transform', 'translate(0, ' + (height - 30) + ')')
 	hGuide.selectAll('path')
 		.style({fill: 'none', stroke: "#000"})
 	hGuide.selectAll('line')
 		.style({stroke: "#000"})
 */
-
-
-
-
-
-
-
-
-
 
 // open -a 'Google Chrome' --args -allow-file-access-from-files
 
