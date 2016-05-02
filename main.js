@@ -40,13 +40,17 @@ d3.csv("records.csv", function(d) {
 // irrelevant data
 // var bardata = [20, 30, 45, 15, 100, 80, 60, 30, 10, 5];
 var bardata = [];
-for (var i = 0; i < 60; i++) {
-	bardata.push(Math.random()*30)
+for (var i = 0; i < 50; i++) {
+	bardata.push(Math.round(Math.random()*50) + 10)
 }
+
+bardata.sort(function compareNumbers(a, b) {
+	return a - b;
+});
 
 // variables for graphic
 var height = 400,
-	width = 600,
+	width = 800,
 	barWidth = 50;
 	barOffset = 5;
 
@@ -68,10 +72,17 @@ var xScale = d3.scale.ordinal()
 	.domain(d3.range(0, bardata.length))
 	.rangeBands([0, width])
 
+var tooltip = d3.select('body').append('div')
+	.style('position', 'absolute')
+	.style('padding', '0 10px')
+	.style('background', 'gray')
+	.style ('opacity', .2)
+
 // start drawing test graphic
 var myChart = d3.select('#viz2').append('svg')
 	.attr('width', width)
 	.attr('height', height)
+	.append('g')
 	.selectAll('rect').data(bardata)
 	.enter().append('rect')
 		.style('fill', function(d, i) {
@@ -83,8 +94,17 @@ var myChart = d3.select('#viz2').append('svg')
 		})
 		.attr('height', 0)
 		.attr('y', height)
+
 	// user interactive
 	.on('mouseover', function(d) {
+		tooltip.transition()
+			.style('opacity', .9)
+
+		// show value of bar
+		tooltip.html(d)
+			.style('left', (d3.event.pageX - 20) + 'px')
+			.style('top', (d3.event.pageY - 30) + 'px')
+
 		tempColor = this.style.fill;
 		d3.select(this)
 			.style('opacity', .5)
@@ -96,6 +116,7 @@ var myChart = d3.select('#viz2').append('svg')
 			.style('fill', tempColor)
 	})
 
+// animation
 myChart.transition()
 	.attr('height', function(d) {
 		return yScale(d);
@@ -104,11 +125,45 @@ myChart.transition()
 		return height - yScale(d);
 	})
 	.delay(function(d, i) {
-		return i * 20;
+		return i * 10;
 	})
 	.duration(1000)
 	.ease('elastic')
 
+// y axis
+var vGuideScale = d3.scale.linear()
+	.domain([0, d3.max(bardata)])
+	.range([height, 0])
+
+var vAxis = d3.svg.axis()
+	.scale(vGuideScale)
+	.orient('left')
+	.ticks(10)
+
+var vGuide = d3.select('svg').append('g')
+	vAxis(vGuide)
+	vGuide.attr('transform', 'translate(35, 0)')
+	vGuide.selectAll('path')
+		.style({fill: 'none', stroke: "#000"})
+	vGuide.selectAll('line')
+		.style({stroke: "#000"})
+
+// x axis
+var hAxis = d3.svg.axis()
+	.scale(xScale)
+	.orient('bottom')
+	// 5 tick marks
+	.tickValues(xScale.domain().filter(function(d, i) {
+		return !(i % (bardata.length/5));
+	}))
+
+var hGuide = d3.select('svg').append('g')
+	hAxis(hGuide)
+	hGuide.attr('transform', 'translate(0, ' + (height - 30) + ')')
+	hGuide.selectAll('path')
+		.style({fill: 'none', stroke: "#000"})
+	hGuide.selectAll('line')
+		.style({stroke: "#000"})
 
 
 
