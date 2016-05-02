@@ -40,7 +40,7 @@ d3.csv("records.csv", function(d) {
 // irrelevant data
 // var bardata = [20, 30, 45, 15, 100, 80, 60, 30, 10, 5];
 var bardata = [];
-for (var i = 0; i < 50; i++) {
+for (var i = 0; i < 60; i++) {
 	bardata.push(Math.random()*30)
 }
 
@@ -69,7 +69,7 @@ var xScale = d3.scale.ordinal()
 	.rangeBands([0, width])
 
 // start drawing test graphic
-d3.select('#viz2').append('svg')
+var myChart = d3.select('#viz2').append('svg')
 	.attr('width', width)
 	.attr('height', height)
 	.selectAll('rect').data(bardata)
@@ -78,15 +78,11 @@ d3.select('#viz2').append('svg')
 			return colors(i);
 		})
 		.attr('width', xScale.rangeBand())
-		.attr('height', function(d) {
-			return yScale(d);
-		})
 		.attr('x', function(d, i) {
 			return xScale(i);
 		})
-		.attr('y', function(d) {
-			return height - yScale(d);
-		})
+		.attr('height', 0)
+		.attr('y', height)
 	// user interactive
 	.on('mouseover', function(d) {
 		tempColor = this.style.fill;
@@ -99,6 +95,19 @@ d3.select('#viz2').append('svg')
 			.style('opacity', 1)
 			.style('fill', tempColor)
 	})
+
+myChart.transition()
+	.attr('height', function(d) {
+		return yScale(d);
+	})
+	.attr('y', function(d) {
+		return height - yScale(d);
+	})
+	.delay(function(d, i) {
+		return i * 20;
+	})
+	.duration(1000)
+	.ease('elastic')
 
 
 
