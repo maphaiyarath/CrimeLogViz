@@ -19,6 +19,8 @@ d3.select('#viz')
 		.attr('r', 100)
 		.style('fill', '#840042')
 
+// =============================================
+
 // test graphic w/ irrelevant data
 // view array of objects in console
 d3.csv("records.csv", function(d) {
@@ -32,11 +34,15 @@ d3.csv("records.csv", function(d) {
 	};
 }, function(data) {
 	console.log(data);
-	alert ('Data loaded!');
+	// alert ('Data loaded!');
 });
 
 // irrelevant data
-var bardata = [20, 30, 45, 15, 100, 80, 60, 30, 10, 5];
+// var bardata = [20, 30, 45, 15, 100, 80, 60, 30, 10, 5];
+var bardata = [];
+for (var i = 0; i < 50; i++) {
+	bardata.push(Math.random()*30)
+}
 
 // variables for graphic
 var height = 400,
@@ -44,10 +50,13 @@ var height = 400,
 	barWidth = 50;
 	barOffset = 5;
 
-// color scale
+// gradient color scale
+// perhaps have legend where dif type of crime is dif color?
 var colors = d3.scale.linear()
-	.domain([0, d3.max(bardata)])
-	.range(['#FFB832', '#C61C6F'])
+	.domain([0, bardata.length*.33, bardata.length*.66, bardata.length])
+	.range(['#FFB832', '#C61C6F', '#268BD2', '#85992C'])
+
+var tempColor;
 
 // map data to canvas height
 var yScale = d3.scale.linear()
@@ -63,10 +72,11 @@ var xScale = d3.scale.ordinal()
 d3.select('#viz2').append('svg')
 	.attr('width', width)
 	.attr('height', height)
-	.style('background', '#C9D7D6')
 	.selectAll('rect').data(bardata)
 	.enter().append('rect')
-		.style('fill', colors)
+		.style('fill', function(d, i) {
+			return colors(i);
+		})
 		.attr('width', xScale.rangeBand())
 		.attr('height', function(d) {
 			return yScale(d);
@@ -77,6 +87,24 @@ d3.select('#viz2').append('svg')
 		.attr('y', function(d) {
 			return height - yScale(d);
 		})
+	// user interactive
+	.on('mouseover', function(d) {
+		tempColor = this.style.fill;
+		d3.select(this)
+			.style('opacity', .5)
+			.style('fill', 'blue')
+	})
+	.on('mouseout', function(d) {
+		d3.select(this)
+			.style('opacity', 1)
+			.style('fill', tempColor)
+	})
+
+
+
+
+
+
 
 
 
